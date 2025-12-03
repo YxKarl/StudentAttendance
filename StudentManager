@@ -1,0 +1,31 @@
+import java.util.ArrayList;
+import java.util.Stack;
+
+public class StudentManager {
+
+    private ArrayList<Student> students = new ArrayList<>();
+    private Stack<Student> studentStack = new Stack<>();
+
+    public void addStudent(Student s) {
+        students.add(s);
+        studentStack.push(s);
+    }
+
+    public Student findStudentByID(String id) {
+        for (Student s : students) {
+            if (s.getId().equalsIgnoreCase(id)) {
+                return s;
+            }
+        }
+        return null;
+    }
+
+    public Stack<Student> getStudentStack() {
+        return studentStack;
+    }
+
+    public ArrayList<Student> getStudents() {
+        return students;
+    }
+}
+ 
