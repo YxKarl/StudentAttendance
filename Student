@@ -1,0 +1,45 @@
+import java.util.ArrayList;
+import java.util.LinkedList;
+import java.util.Queue;
+
+public class Student {
+    private String id;
+    private String name;
+    private String gradeLevel;
+
+    private boolean isPresent;
+    private ArrayList<Integer> grades = new ArrayList<>();
+    private ArrayList<String> violations = new ArrayList<>();
+    private Queue<String> activities = new LinkedList<>();
+
+    public Student(String id, String name, String gradeLevel) {
+        this.id = id;
+        this.name = name;
+        this.gradeLevel = gradeLevel;
+        this.isPresent = false;
+    }
+
+
+    public String getId() { return id; }
+    public String getName() { return name; }
+    public String getGradeLevel() { return gradeLevel; }
+
+    // Attendance
+    public void setPresent(boolean present) { this.isPresent = present; }
+    public boolean isPresent() { return isPresent; }
+
+    // Grades
+    public void addGrade(int grade) { grades.add(grade); }
+    public ArrayList<Integer> getGrades() { return grades; }
+
+    // Violations
+    public void addViolation(String v) { violations.add(v); }
+    public ArrayList<String> getViolations() { return violations; }
+
+    // Activities (Queue)
+    public void addActivity(String act) { activities.add(act); }
+    public Queue<String> getActivities() { return activities; }
+}
+
+
+
