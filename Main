@@ -1,0 +1,190 @@
+import java.util.Scanner;
+import java.util.Stack;
+
+public class Main {
+    public static void main(String[] args) {
+
+        Scanner input = new Scanner(System.in);
+        StudentManager manager = new StudentManager();
+
+        int choice;
+
+        do {
+            System.out.println("\n======== STUDENT MANAGEMENT SYSTEM ========");
+            System.out.println("1. Add Student");
+            System.out.println("2. Check Attendance");
+            System.out.println("3. View Student Profile");
+            System.out.println("4. Add/View Grades");
+            System.out.println("5. Add/View Violations");
+            System.out.println("6. View Students (STACK)");
+            System.out.println("7. Add/View Student Module/Activity (QUEUE)");
+            System.out.println("8. Exit");
+            System.out.print("Choose option: ");
+            choice = input.nextInt();
+            input.nextLine();
+
+            switch (choice) {
+
+                // ADD STUDENT
+                case 1:
+                    System.out.print("Enter Student ID: ");
+                    String id = input.nextLine();
+
+                    System.out.print("Enter Student Name: ");
+                    String name = input.nextLine();
+
+                    System.out.print("Enter Grade Level: ");
+                    String grade = input.nextLine();
+
+                    manager.addStudent(new Student(id, name, grade));
+                    System.out.println("Student added!");
+                    break;
+
+
+                // ATTENDANCE
+                case 2:
+                    System.out.print("Enter Student ID: ");
+                    String attID = input.nextLine();
+                    Student attStudent = manager.findStudentByID(attID);
+
+                    if (attStudent != null) {
+                        System.out.print("Is the student present? (yes/no): ");
+                        String ans = input.nextLine();
+                        attStudent.setPresent(ans.equalsIgnoreCase("yes"));
+                        System.out.println("✔ Attendance updated!");
+                    } else {
+                        System.out.println("Student not found!");
+                    }
+                    break;
+
+
+                // PROFILE
+                case 3:
+                    System.out.print("Enter Student ID: ");
+                    String profID = input.nextLine();
+                    Student p = manager.findStudentByID(profID);
+
+                    if (p != null) {
+                        System.out.println("\n---- STUDENT PROFILE ----");
+                        System.out.println("ID: " + p.getId());
+                        System.out.println("Name: " + p.getName());
+                        System.out.println("Grade Level: " + p.getGradeLevel());
+                        System.out.println("Attendance: " + (p.isPresent() ? "Present" : "Absent"));
+                    } else {
+                        System.out.println("Student not found!");
+                    }
+                    break;
+
+
+                // GRADES
+                case 4:
+                    System.out.print("Enter Student ID: ");
+                    String gID = input.nextLine();
+                    Student g = manager.findStudentByID(gID);
+
+                    if (g != null) {
+                        System.out.println("1. Add Grade");
+                        System.out.println("2. View Grades");
+                        System.out.print("Enter choice: ");
+                        int gc = input.nextInt();
+                        input.nextLine();
+
+                        if (gc == 1) {
+                            System.out.print("Enter grade: ");
+                            int gradeVal = input.nextInt();
+                            g.addGrade(gradeVal);
+                            System.out.println("✔ Grade added!"); // for adding grades
+                        } else {
+                            System.out.println("\n---- GRADES ----");
+                            for (int gr : g.getGrades()) {
+                                System.out.println("Grade: " + gr);
+                            }
+                        }
+                    } else {
+                        System.out.println("Student not found!");
+                    }
+                    break;
+
+
+                // VIOLATIONS
+                case 5:
+                    System.out.print("Enter Student ID: ");
+                    String vID = input.nextLine();
+                    Student v = manager.findStudentByID(vID); // Find student by ID
+
+                    if (v != null) {
+                        System.out.println("1. Add Violation");
+                        System.out.println("2. View Violations");
+                        int vc = input.nextInt();
+                        input.nextLine();
+
+                        if (vc == 1) {
+                            System.out.print("Enter violation: ");
+                            String viol = input.nextLine();
+                            v.addViolation(viol);
+                            System.out.println("Violation added!");
+                        } else {
+                            System.out.println("\n---- VIOLATIONS ----");
+                            for (String viol : v.getViolations()) {
+                                System.out.println("- " + viol);
+                            }
+                        }
+                    } else {
+                        System.out.println("Student not found!");
+                    }
+                    break;
+
+
+                // STACK — VIEW STUDENTS
+                case 6:
+                    System.out.println("\n---- STUDENTS STACK (LIFO) ----");
+                    Stack<Student> stack = manager.getStudentStack();
+
+                    for (Student s : stack) {
+                        System.out.println(s.getId() + " - " + s.getName());
+                    }
+                    break;
+
+
+                // QUEUE — MODULES/ACTIVITIES
+                case 7:
+                    System.out.print("Enter Student ID: ");
+                    String mID = input.nextLine();
+                    Student stu = manager.findStudentByID(mID);
+
+                    if (stu != null) {
+                        System.out.println("1. Add Module/Activity");
+                        System.out.println("2. View Activities");
+                        int mc = input.nextInt();
+                        input.nextLine();
+
+                        if (mc == 1) {
+                            System.out.print("Enter activity/module: ");
+                            String act = input.nextLine();
+                            stu.addActivity(act);
+                            System.out.println("✔ Activity added to queue!");
+                        } else {
+                            System.out.println("\n---- ACTIVITIES QUEUE ----");
+                            for (String act : stu.getActivities()) {
+                                System.out.println("- " + act);
+                            }
+                        }
+                    } else {
+                        System.out.println("Student not found!");
+                    }
+                    break;
+
+
+                case 8:
+                    System.out.println("Exiting...");
+                    break;
+
+                default:
+                    System.out.println("Invalid option!");
+            }
+
+        } while (choice != 8);
+
+        input.close();
+    }
+}
